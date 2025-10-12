@@ -12,5 +12,6 @@ final class ProfileViewController: UIViewController {
     // MARK: - IB Actions
     
     @IBAction private func didTapLogoutButton() {
+        print("кнопка нажата")
     }
 }
