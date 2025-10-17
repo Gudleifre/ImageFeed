@@ -10,7 +10,6 @@ final class ProfileViewController: UIViewController {
     @IBOutlet private var logoutButton: UIButton!
     
     // MARK: - IB Actions
-    
     @IBAction private func didTapLogoutButton() {
         print("кнопка нажата")
     }
