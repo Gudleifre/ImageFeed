@@ -10,9 +10,16 @@ final class SingleImageViewController: UIViewController {
         }
     }
     
+    // MARK: - Constants
+    private enum Constants {
+        static let minimumZoomScale: CGFloat = 0.1
+        static let maximumZoomScale: CGFloat = 1.25
+    }
+    
     // MARK: - IB Outlets
     @IBOutlet private var imageView: UIImageView!
     @IBOutlet private var scrollView: UIScrollView!
+    @IBOutlet var backButton: UIButton!
     
     // MARK: - Overrides Methods
     override func viewDidLoad() {
@@ -23,9 +30,8 @@ final class SingleImageViewController: UIViewController {
         imageView.frame.size = image.size
         rescaleAndCenterImageInScrollView(image: image)
         
-        // Zoom
-        scrollView.minimumZoomScale = 0.1
-        scrollView.maximumZoomScale = 1.25
+        setupZoomSettings()
+        setupBackButtonImage()
     }
     
     // MARK: - IB Actions
@@ -49,6 +55,17 @@ final class SingleImageViewController: UIViewController {
         view.layoutIfNeeded()
         let visibleRectSize = scrollView.bounds.size
         let imageSize = image.size
+        
+        guard imageSize.width > 0 && imageSize.height > 0 else {
+            print("Error: imageSize is zero")
+            return
+        }
+        
+        guard visibleRectSize.width > 0 && visibleRectSize.height > 0 else {
+            print("Error: visibleRectSize is zero")
+            return
+        }
+        
         let hScale = visibleRectSize.width / imageSize.width
         let vScale = visibleRectSize.height / imageSize.height
         let scale = min(maxZoomScale, max(minZoomScale, min(hScale, vScale)))
@@ -59,6 +76,16 @@ final class SingleImageViewController: UIViewController {
         let y = (newContentSize.height - visibleRectSize.height) / 2
         scrollView.setContentOffset(CGPoint(x: x, y: y), animated: false)
     }
+    
+    private func setupZoomSettings() {
+        scrollView.minimumZoomScale = Constants.minimumZoomScale
+        scrollView.maximumZoomScale = Constants.maximumZoomScale
+    }
+    
+    private func setupBackButtonImage() {
+        guard let  image = UIImage(named: "backButton") else { return }
+        backButton.setImage(image, for: .normal)
+    }
 }
 
 // MARK: - Extensions
@@ -67,6 +94,3 @@ extension SingleImageViewController: UIScrollViewDelegate {
         imageView
     }
 }
-
-
-

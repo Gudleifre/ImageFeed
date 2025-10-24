@@ -162,6 +162,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="wcG-qm-Uxo"/>
                     <connections>
+                        <outlet property="backButton" destination="mbp-sV-4nj" id="IxE-ju-beP"/>
                         <outlet property="imageView" destination="mdz-PN-V16" id="m9R-8C-0l6"/>
                         <outlet property="scrollView" destination="IWV-RX-flc" id="Bfd-la-cfT"/>
                     </connections>
