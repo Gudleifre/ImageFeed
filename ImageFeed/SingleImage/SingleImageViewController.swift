@@ -11,10 +11,10 @@ final class SingleImageViewController: UIViewController {
     }
     
     // MARK: - Constants
-    private enum Constants {
-        static let minimumZoomScale: CGFloat = 0.1
-        static let maximumZoomScale: CGFloat = 1.25
-    }
+//    private enum ConstantsForZoom {
+//        static let minimumZoomScale: CGFloat = 0.1
+//        static let maximumZoomScale: CGFloat = 1.25
+//    }
     
     // MARK: - IB Outlets
     @IBOutlet private var imageView: UIImageView!
