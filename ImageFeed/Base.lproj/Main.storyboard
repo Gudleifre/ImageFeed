@@ -6,6 +6,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -187,10 +188,10 @@
             </objects>
             <point key="canvasLocation" x="137" y="785"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--TabBarController-->
         <scene sceneID="RE0-S8-1gb">
             <objects>
-                <tabBarController id="b1u-00-3tF" customClass="TabBarController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController title="TabBarController" id="b1u-00-3tF" customClass="TabBarController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="2Vv-Hu-9aD">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -231,15 +232,19 @@
                                     <constraint firstAttribute="height" constant="48" id="0ic-DN-f4O"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                <color key="tintColor" name="YP Black (iOS)"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" title="Войти"/>
+                                <state key="normal" title="Войти">
+                                    <color key="titleColor" name="YP Black (iOS)"/>
+                                </state>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                         <integer key="value" value="16"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <segue destination="XDp-Sx-MGN" kind="show" identifier="ShowWebView" id="txD-0u-TGr"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="FTq-Mw-8w9"/>
@@ -259,7 +264,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c5m-6O-KAt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-43" y="-313"/>
+            <point key="canvasLocation" x="136" y="-549"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="iUD-Xd-1sb">
@@ -277,7 +282,42 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A8A-6q-Hhf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-923" y="-313"/>
+            <point key="canvasLocation" x="-923" y="-549"/>
+        </scene>
+        <!--WebViewViewController-->
+        <scene sceneID="xXj-W0-Tac">
+            <objects>
+                <viewController title="WebViewViewController" id="XDp-Sx-MGN" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="dXN-aM-omq">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TsV-vS-L9h">
+                                <rect key="frame" x="0.0" y="150" width="414" height="746"/>
+                                <color key="backgroundColor" name="YP White (iOS)"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="whs-2c-vpG"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="TsV-vS-L9h" firstAttribute="leading" secondItem="dXN-aM-omq" secondAttribute="leading" id="4yr-l7-tp2"/>
+                            <constraint firstItem="TsV-vS-L9h" firstAttribute="top" secondItem="whs-2c-vpG" secondAttribute="top" id="QaO-dG-QHQ"/>
+                            <constraint firstAttribute="trailing" secondItem="TsV-vS-L9h" secondAttribute="trailing" id="fn7-cp-nmz"/>
+                            <constraint firstItem="TsV-vS-L9h" firstAttribute="bottom" secondItem="dXN-aM-omq" secondAttribute="bottom" id="nlq-z0-sYO"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="CQU-Gm-m5C"/>
+                    <connections>
+                        <outlet property="webView" destination="TsV-vS-L9h" id="Cdz-Ew-FgR"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6Eq-Jt-QQl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1044.9275362318842" y="-549.10714285714278"/>
         </scene>
     </scenes>
     <resources>
@@ -297,5 +337,8 @@
         <namedColor name="YP White (iOS)">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>
