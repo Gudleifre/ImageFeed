@@ -7,18 +7,49 @@ protocol WebViewViewControllerDelegate: AnyObject {
 }
 
 final class WebViewViewController: UIViewController {
-    
+    // MARK: - IB Outlets
     @IBOutlet private var webView: WKWebView!
+    @IBOutlet private var progressView: UIProgressView!
     
+    // MARK: - Public Properties
     weak var delegate: WebViewViewControllerDelegate?
     
+    // MARK: - Overrides Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
         webView.navigationDelegate = self
         loadAuthView()
+        updateProgress()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        addObserverForWebView()
+        
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        removeObserverForWebView()
+    }
+    
+    override func observeValue(
+        forKeyPath keyPath: String?,
+        of object: Any?,
+        change: [NSKeyValueChangeKey : Any]?,
+        context: UnsafeMutableRawPointer?
+    ) {
+        if keyPath == #keyPath(WKWebView.estimatedProgress) {
+            updateProgress()
+        } else {
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+        }
+    }
+    
+    // MARK: - Private Methods
     private func loadAuthView() {
         guard var urlComponents = URLComponents(string: Constants.unsplashAuthorizeURLString) else {
             print("urlComponents isn't initialized")
@@ -40,8 +71,30 @@ final class WebViewViewController: UIViewController {
         let request = URLRequest(url: url)
         webView.load(request)
     }
+    
+    private func addObserverForWebView() {
+        webView.addObserver(
+            self,
+            forKeyPath: #keyPath(WKWebView.estimatedProgress),
+            options: .new,
+            context: nil)
+        updateProgress()
+    }
+    
+    private func removeObserverForWebView() {
+        webView.removeObserver(
+            self,
+            forKeyPath: #keyPath(WKWebView.estimatedProgress),
+            context: nil)
+    }
+    
+    private func updateProgress() {
+        progressView.progress = Float(webView.estimatedProgress)
+        progressView.isHidden = fabs(webView.estimatedProgress - 1.0) < 0.0001
+    }
 }
 
+// MARK: - Extensions
 extension WebViewViewController: WKNavigationDelegate {
     func webView(
         _ webView: WKWebView,

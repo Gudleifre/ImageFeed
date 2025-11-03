@@ -1,10 +1,13 @@
 import UIKit
 
 final class AuthViewController: UIViewController {
-    private let segueToWebViewIdentifier = "ShowWebView"
-    
+    // MARK: - IB Outlets
     @IBOutlet var authButton: UIButton!
     
+    // MARK: - Private Properties
+    private let segueToWebViewIdentifier = "ShowWebView"
+    
+    // MARK: - Overrides Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -25,6 +28,7 @@ final class AuthViewController: UIViewController {
         }
     }
     
+    // MARK: - Private Methods
     private func configureBackButton() {
         navigationController?.navigationBar.backIndicatorImage = UIImage(named: "backButton")
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "backButton")
@@ -32,13 +36,14 @@ final class AuthViewController: UIViewController {
         navigationItem.backBarButtonItem?.tintColor = .ypBlackIOS
     }
 }
-    
-    extension AuthViewController: WebViewViewControllerDelegate {
-        func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-            // TODO: process code
-        }
-        
-        func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
-            vc.dismiss(animated: true)
-        }
+
+// MARK: - Extensions
+extension AuthViewController: WebViewViewControllerDelegate {
+    func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
+        // TODO: process code
     }
+    
+    func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
+        vc.dismiss(animated: true)
+    }
+}
