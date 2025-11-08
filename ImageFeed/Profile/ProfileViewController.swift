@@ -97,8 +97,8 @@ final class ProfileViewController: UIViewController {
     }
     
     // MARK: - Actions
-    // TODO: реализовать нажатие кнопки логаут
     @objc private func didTapLogoutButton(_ sender: UIButton) {
         print("logout button is pressed")
+        // TODO: process code
     }
 }
