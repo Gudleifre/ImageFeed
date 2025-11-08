@@ -1,11 +1,19 @@
 import UIKit
 
+protocol AuthViewControllerDelegate: AnyObject {
+    func didAuthenticate(_ vc: AuthViewController)
+}
+
 final class AuthViewController: UIViewController {
     // MARK: - IB Outlets
     @IBOutlet var authButton: UIButton!
     
+    // MARK: - Public Properties
+    weak var delegate: AuthViewControllerDelegate?
+    
     // MARK: - Private Properties
     private let segueToWebViewIdentifier = "ShowWebView"
+    private let oauth2Service = OAuth2Service.shared
     
     // MARK: - Overrides Methods
     override func viewDidLoad() {
@@ -19,7 +27,7 @@ final class AuthViewController: UIViewController {
             guard
                 let webViewViewController = segue.destination as? WebViewViewController
             else {
-                print("Failed to prepare for \(segueToWebViewIdentifier)")
+                assertionFailure("Failed to prepare for \(segueToWebViewIdentifier)")
                 return
             }
             webViewViewController.delegate = self
@@ -40,10 +48,30 @@ final class AuthViewController: UIViewController {
 // MARK: - Extensions
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-        // TODO: process code
+        
+        fetchOAuthToken(code) { [weak self] result in
+            guard let self else { return }
+            
+            switch result {
+            case .success:
+                self.delegate?.didAuthenticate(self)
+                
+            case .failure(let error):
+                print("Error fetching token: \(error)")
+                vc.dismiss(animated: true)
+            }
+        }
     }
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
         vc.dismiss(animated: true)
+    }
+}
+
+extension AuthViewController {
+    private func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, Error>) -> Void) {
+        oauth2Service.fetchOAuthToken(code) { result in
+            completion(result)
+        }
     }
 }

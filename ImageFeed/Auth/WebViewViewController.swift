@@ -52,7 +52,6 @@ final class WebViewViewController: UIViewController {
     // MARK: - Private Methods
     private func loadAuthView() {
         guard var urlComponents = URLComponents(string: Constants.unsplashAuthorizeURLString) else {
-            print("urlComponents isn't initialized")
             return
         }
         
@@ -64,7 +63,7 @@ final class WebViewViewController: UIViewController {
         ]
         
         guard let url = urlComponents.url else {
-            print("The URL isn't formed")
+            print("The URL for authorization isn't formed")
             return
         }
         
